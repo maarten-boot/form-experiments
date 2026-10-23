@@ -1,0 +1,111 @@
+:root {
+  --bg: #f7f7f9;
+  --panel: #ffffff;
+  --border: #c9ccd3;
+  --text: #1e2230;
+  --muted: #6b7080;
+  --parent: #3b6fd8;
+  --child: #e07b2e;
+  --line: #8a8f9c;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 16px;
+  font: 14px/1.4 system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+h1 { font-size: 18px; margin: 0 0 12px; }
+
+.tabs { display: flex; gap: 4px; margin-bottom: 12px; }
+.tabs button {
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  border-radius: 4px;
+  cursor: pointer;
+}
+.tabs button[aria-selected="true"] {
+  background: var(--text);
+  color: #fff;
+  border-color: var(--text);
+}
+
+/* Left → right: focus list | graph | selected | arrows | candidates */
+.editor {
+  display: grid;
+  grid-template-columns: 200px minmax(280px, 1fr) 200px auto 200px;
+  gap: 12px;
+  align-items: stretch;
+}
+
+.column { display: flex; flex-direction: column; min-width: 0; }
+.column label, .col-title { font-weight: 600; margin-bottom: 4px; }
+
+select {
+  width: 100%;
+  height: 340px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--panel);
+  font: inherit;
+}
+
+.graph-pane {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--panel);
+  height: 340px;
+  overflow: auto;
+}
+/* Width/height are set by app.js from the content size and zoom level. */
+#graph { display: block; }
+
+.graph-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.zoom { display: flex; align-items: center; gap: 2px; margin-bottom: 4px; }
+.zoom button {
+  height: 20px;
+  min-width: 24px;
+  padding: 0 6px;
+  font-size: 12px;
+  line-height: 1;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: var(--panel);
+  cursor: pointer;
+}
+.zoom button[aria-pressed="true"] { background: var(--text); color: #fff; border-color: var(--text); }
+#zoom-level { min-width: 3.5em; text-align: right; font-size: 12px; color: var(--muted); }
+
+.arrows {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+}
+.arrows button {
+  width: 40px;
+  height: 32px;
+  font-size: 18px;
+  cursor: pointer;
+}
+.arrows button:disabled { cursor: default; }
+
+/* Graph */
+.node.parent { fill: var(--parent); }
+.node.child { fill: var(--child); }
+.connector { fill: none; stroke: var(--line); stroke-width: 1.5; }
+.label { font-size: 12px; fill: var(--text); }
+.focus-label { font-weight: 600; }
+.hint { font-size: 13px; fill: var(--muted); }
+
+/* Related items are clickable; selected ones (in the Selected list) are highlighted. */
+.related-item { cursor: pointer; }
+.related-item:hover .label { text-decoration: underline; }
+.related-item.highlight .node { stroke: var(--text); stroke-width: 2.5; }
+.related-item.highlight .label { font-weight: 700; }
+.connector.highlight { stroke: var(--text); stroke-width: 2.5; }

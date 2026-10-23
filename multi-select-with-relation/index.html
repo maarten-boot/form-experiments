@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Parent / Child Editor</title>
+  <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+  <h1>Parent / Child Editor</h1>
+
+  <form id="relation-form" method="post">
+    <div class="tabs" role="tablist">
+      <button type="button" role="tab" data-view-tab="parent">By parent</button>
+      <button type="button" role="tab" data-view-tab="child">By child</button>
+    </div>
+
+    <div class="editor">
+      <div class="column">
+        <label for="focus-list" id="focus-label">Parent</label>
+        <select id="focus-list" size="15"></select>
+      </div>
+
+      <div class="column">
+        <div class="graph-head">
+          <span class="col-title" id="graph-title">Relationship</span>
+          <div class="zoom" role="group" aria-label="Zoom">
+            <button type="button" id="zoom-out" title="Zoom out">&minus;</button>
+            <button type="button" id="zoom-fit" title="Fit to pane">Fit</button>
+            <button type="button" id="zoom-reset" title="Actual size">1:1</button>
+            <button type="button" id="zoom-in" title="Zoom in">+</button>
+            <span id="zoom-level" aria-live="polite"></span>
+          </div>
+        </div>
+        <div class="graph-pane">
+          <!-- aria-label is kept up to date by app.js with a text version of the graph. -->
+          <svg id="graph" xmlns="http://www.w3.org/2000/svg" role="img"></svg>
+        </div>
+      </div>
+
+      <div class="column">
+        <label for="selected-list" id="selected-label">Children</label>
+        <select id="selected-list" multiple></select>
+      </div>
+
+      <div class="arrows">
+        <button type="button" id="btn-add" title="Add selected candidates">&larr;</button>
+        <button type="button" id="btn-remove" title="Remove selected">&rarr;</button>
+      </div>
+
+      <div class="column">
+        <label for="candidates-list" id="candidates-label">Candidate children</label>
+        <select id="candidates-list" multiple></select>
+      </div>
+    </div>
+
+    <div id="hidden-links"></div>
+  </form>
+
+  <!-- Sample data. In Django: {{ relation_data|json_script:"relation-data" }} -->
+  <script id="relation-data" type="application/json">
+  {
+    "parents": [
+      {"id": "p1", "label": "Team Alpha"},
+      {"id": "p2", "label": "Team Bravo"},
+      {"id": "p3", "label": "Team Charlie"},
+      {"id": "p4", "label": "Team Delta"}
+    ],
+    "children": [
+      {"id": "c1", "label": "Alice"},
+      {"id": "c2", "label": "Bob"},
+      {"id": "c3", "label": "Carol"},
+      {"id": "c4", "label": "Dave"},
+      {"id": "c5", "label": "Eve"},
+      {"id": "c6", "label": "Frank"},
+      {"id": "c7", "label": "Grace"},
+      {"id": "c8", "label": "Heidi"}
+    ],
+    "links": [
+      ["p1", "c1"], ["p1", "c2"], ["p2", "c2"], ["p2", "c3"], ["p2", "c4"]
+    ]
+  }
+  </script>
+  <script src="static/relations.js"></script>
+  <script src="static/app.js"></script>
+</body>
+</html>
